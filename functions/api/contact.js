@@ -1,5 +1,9 @@
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
+function redirectTo(request, state) {
+  return Response.redirect(new URL(`/?sent=${state}`, request.url), 303);
+}
+
 function fieldValue(formData, name) {
   const value = formData.get(name);
   return typeof value === "string" ? value.trim() : "";
@@ -81,15 +85,21 @@ export async function onRequest(context) {
   };
 
   if (!submission.name || !submission.phone || !submission.product) {
-    return new Response("Faltan campos requeridos.", { status: 400 });
+    return redirectTo(request, "error");
   }
 
   if (!context.env.RESEND_API_KEY) {
-    return new Response("Falta RESEND_API_KEY", { status: 500 });
+    console.error("Missing required environment variable", {
+      variable: "RESEND_API_KEY",
+    });
+    return redirectTo(request, "error");
   }
 
   if (!context.env.CONTACT_TO_EMAIL) {
-    return new Response("Falta CONTACT_TO_EMAIL", { status: 500 });
+    console.error("Missing required environment variable", {
+      variable: "CONTACT_TO_EMAIL",
+    });
+    return redirectTo(request, "error");
   }
 
   const resendResponse = await fetch(RESEND_ENDPOINT, {
@@ -97,7 +107,7 @@ export async function onRequest(context) {
     headers: {
       Authorization: `Bearer ${context.env.RESEND_API_KEY}`,
       "Content-Type": "application/json",
-      "User-Agent": "la-mesa-verde/1.0",
+      "User-Agent": "p1-contact-form/1.0",
     },
     body: JSON.stringify({
       from: "La Mesa Verde <onboarding@resend.dev>",
@@ -115,8 +125,8 @@ export async function onRequest(context) {
       body: await resendResponse.text(),
     });
 
-    return new Response("No se pudo enviar la solicitud.", { status: 502 });
+    return redirectTo(request, "error");
   }
 
-  return Response.redirect(new URL("/?sent=1#pedido", request.url), 303);
+  return redirectTo(request, "success");
 }

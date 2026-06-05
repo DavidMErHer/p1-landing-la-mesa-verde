@@ -7,11 +7,15 @@ almuerzos caseros para un restaurante local ficticio en Chapinero, Bogotá.
 
 - `index.html`
 - `styles.css`
+- `script.js`
+- `functions/api/contact.js`
 - `img/` con imágenes locales usadas por la página
 
-No usa JavaScript en el frontend, librerías externas, CMS, WordPress, build
-tools ni tracking. La landing funciona abriendo `index.html` directamente en el
-navegador; el envío del formulario requiere Cloudflare Pages Functions.
+No usa librerías externas, CMS, WordPress, build tools ni tracking. El
+JavaScript del frontend solo muestra notificaciones del formulario; no procesa
+datos ni intercepta el envío. La landing funciona abriendo `index.html`
+directamente en el navegador; el envío del formulario requiere Cloudflare Pages
+Functions.
 
 ## Publicación en Cloudflare Pages
 
@@ -21,7 +25,7 @@ Configuración sugerida:
 - Build command: vacío
 - Build output directory: `/`
 
-El formulario usa `method="post"` y `action="/api/contact"`. La Cloudflare Pages
+El formulario usa `method="POST"` y `action="/api/contact"`. La Cloudflare Pages
 Function en `functions/api/contact.js` recibe la solicitud y envía un correo con
 Resend, sin SDK ni dependencias npm.
 
@@ -46,13 +50,55 @@ CONTACT_TO_EMAIL=david.mer.her@gmail.com
 
 - Abre `/api/contact` en la URL pública. Debe responder:
   `Endpoint activo. Usa POST desde el formulario.`
-- Si al enviar aparece `Falta RESEND_API_KEY`, revisa que la variable exista en
-  Cloudflare Pages Production como Secret y haz redeploy.
-- Si aparece `Falta CONTACT_TO_EMAIL`, revisa que la variable exista en
-  Cloudflare Pages Production y haz redeploy.
-- Si aparece `No se pudo enviar la solicitud.`, revisa los logs de Cloudflare
-  Pages Functions. La función registra estado, texto de estado y respuesta de
+- Si al enviar vuelve a la landing con `?sent=error`, revisa los logs de
+  Cloudflare Pages Functions.
+- Si falta una variable de entorno, la función registra cuál falta sin imprimir
+  secretos.
+- Si Resend falla, la función registra estado, texto de estado y respuesta de
   Resend, pero no imprime la API key.
+
+## Sistema reutilizable de formulario
+
+La estructura funcional del formulario no debe cambiarse sin actualizar la
+Function. El formulario envía por POST normal a `/api/contact`; `script.js` solo
+muestra notificaciones según la URL y no procesa datos, no intercepta `submit` y
+no envía información.
+
+Campos requeridos por `/api/contact`:
+
+- `name`
+- `phone`
+- `product`
+
+Campos opcionales:
+
+- `message`
+- `source`
+
+La función está en `functions/api/contact.js` y usa estas variables obligatorias:
+
+- `RESEND_API_KEY`
+- `CONTACT_TO_EMAIL`
+
+Para adaptar este sistema a otra landing P1 se puede cambiar:
+
+- Textos visibles.
+- Estilos CSS.
+- Opciones del select `product`.
+- `value` del campo hidden `source`.
+- Mensajes `data-success-message` y `data-error-message`.
+
+No se debe cambiar sin revisar backend:
+
+- `method`
+- `action`
+- `name` de los campos.
+
+Nunca pongas API keys en el frontend.
+
+Success usa `?sent=success` y error usa `?sent=error`. La URL se limpia con
+`script.js` para evitar que la query quede visible después de mostrar la
+notificación. No hay scroll automático.
 
 La acción principal de la landing es WhatsApp:
 
