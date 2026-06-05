@@ -9,8 +9,9 @@ almuerzos caseros para un restaurante local ficticio en Chapinero, Bogotá.
 - `styles.css`
 - `img/` con imágenes locales usadas por la página
 
-No usa JavaScript, librerías externas, CMS, WordPress, build tools ni tracking.
-Funciona abriendo `index.html` directamente en el navegador.
+No usa JavaScript en el frontend, librerías externas, CMS, WordPress, build
+tools ni tracking. La landing funciona abriendo `index.html` directamente en el
+navegador; el envío del formulario requiere Cloudflare Pages Functions.
 
 ## Publicación en Cloudflare Pages
 
@@ -20,9 +21,26 @@ Configuración sugerida:
 - Build command: vacío
 - Build output directory: `/`
 
-El formulario está preparado con `method="post"` y `action="/pedido"` para que
-una futura Cloudflare Pages Function reciba la solicitud y la reenvíe al correo
-documentado: `david.mer.her@gmail.com`.
+El formulario usa `method="post"` y `action="/api/contact"`. La Cloudflare Pages
+Function en `functions/api/contact.js` recibe la solicitud y envía un correo con
+Resend, sin SDK ni dependencias npm.
+
+## Configurar Resend
+
+1. Crea una cuenta en Resend desde `https://resend.com`.
+2. Crea una API key en el panel de Resend.
+3. En Cloudflare Pages, abre el proyecto y configura estas variables de entorno:
+
+```text
+RESEND_API_KEY=tu_api_key_de_resend
+CONTACT_TO_EMAIL=david.mer.her@gmail.com
+```
+
+4. Haz redeploy del proyecto para que Cloudflare tome las variables nuevas.
+5. Prueba el formulario desde la URL pública `.pages.dev`.
+6. Mientras no haya dominio propio verificado, usa el remitente de prueba
+   `La Mesa Verde <onboarding@resend.dev>`. En producción se debe verificar un
+   dominio en Resend y cambiar el remitente por uno propio.
 
 La acción principal de la landing es WhatsApp:
 

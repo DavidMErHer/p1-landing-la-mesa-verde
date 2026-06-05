@@ -45,6 +45,7 @@ a {
 
 button,
 input,
+select,
 textarea {
   font: inherit;
 }
@@ -360,6 +361,7 @@ h3 {
 }
 
 .order-form input,
+.order-form select,
 .order-form textarea {
   width: 100%;
   border: 1px solid var(--color-border);
@@ -367,6 +369,10 @@ h3 {
   padding: 14px 16px;
   color: var(--color-ink);
   background: var(--color-white);
+}
+
+.order-form select {
+  min-height: 56px;
 }
 
 .order-form textarea {

@@ -144,30 +144,36 @@
             </a>
           </div>
 
-          <form class="order-form" action="/pedido" method="post">
-            <input type="hidden" name="destinatario" value="david.mer.her@gmail.com" />
-            <input type="hidden" name="origen" value="P1 Landing page demo" />
+          <form class="order-form" action="/api/contact" method="post">
+            <input type="hidden" name="source" value="P1 Landing page demo" />
 
             <label for="nombre">Nombre</label>
-            <input id="nombre" name="nombre" type="text" autocomplete="name" required />
+            <input id="nombre" name="name" type="text" autocomplete="name" required />
 
             <label for="telefono">WhatsApp</label>
             <input
               id="telefono"
-              name="telefono"
+              name="phone"
               type="tel"
               autocomplete="tel"
               inputmode="tel"
               required
             />
 
+            <label for="producto">Almuerzo</label>
+            <select id="producto" name="product" required>
+              <option value="">Selecciona una opción</option>
+              <option value="Bowl verde de la casa">Bowl verde de la casa</option>
+              <option value="Pollo campesino">Pollo campesino</option>
+              <option value="Lentejas verdes">Lentejas verdes</option>
+            </select>
+
             <label for="mensaje">Solicitud</label>
             <textarea
               id="mensaje"
-              name="mensaje"
+              name="message"
               rows="4"
               placeholder="Quiero pedir 2 almuerzos para hoy..."
-              required
             ></textarea>
 
             <button class="btn btn--primary" type="submit">Enviar solicitud</button>
