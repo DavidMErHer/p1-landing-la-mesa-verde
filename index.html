@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="La Mesa Verde: almuerzos caseros, frescos y fáciles de pedir por WhatsApp en Chapinero, Bogotá."
+    />
+    <title>La Mesa Verde | Almuerzos caseros en Chapinero</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero__grid">
+          <div class="hero__copy">
+            <p class="eyebrow">Chapinero, Bogotá</p>
+            <h1 id="hero-title">Almuerzo casero, fresco y sin vueltas.</h1>
+            <p class="hero__lead">
+              En La Mesa Verde preparamos platos de todos los días con
+              ingredientes frescos, porciones generosas y pedido directo por
+              WhatsApp.
+            </p>
+            <div class="actions" aria-label="Acciones principales">
+              <a
+                class="btn btn--primary"
+                href="https://wa.me/573229059423?text=Hola%2C%20quiero%20pedir%20un%20almuerzo%20en%20La%20Mesa%20Verde."
+              >
+                Pedir por WhatsApp
+              </a>
+              <a class="btn btn--secondary btn--dark" href="#pedido">
+                Dejar solicitud
+              </a>
+            </div>
+            <div class="hero__meta" aria-label="Información rápida">
+              <span>Menú corto del día</span>
+              <span>Pedido fácil</span>
+              <span>Comida casera</span>
+            </div>
+          </div>
+
+          <div class="hero__visual" aria-label="Plato servido en La Mesa Verde">
+            <img
+              src="img/john-fornander-jJIb2e7Jkcs-unsplash.jpg"
+              alt="Plato fresco de restaurante con vegetales y preparación casera"
+              fetchpriority="high"
+            />
+            <div class="hero__note">
+              <strong>Hoy en cocina</strong>
+              <span>Base vegetal, proteína fresca y acompañamientos de casa.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="menu" aria-labelledby="menu-title">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Oferta corta</p>
+            <h2 id="menu-title">Tres almuerzos para resolver bien el día.</h2>
+            <p>
+              Una selección simple para pedir rápido, comer rico y seguir con la
+              tarde sin complicarse.
+            </p>
+          </div>
+
+          <div class="menu__layout">
+            <article class="dish-card dish-card--featured">
+              <img
+                src="img/dan-gold-4_jhDO54BYg-unsplash.jpg"
+                alt="Bowl saludable con verduras frescas y granos"
+                loading="lazy"
+              />
+              <div class="dish-card__body">
+                <p class="dish-card__tag">Recomendado</p>
+                <h3>Bowl verde de la casa</h3>
+                <p>
+                  Arroz integral, verduras salteadas, aguacate, proteína del día
+                  y salsa suave de hierbas.
+                </p>
+                <span class="price">$24.000</span>
+              </div>
+            </article>
+
+            <div class="menu__list" aria-label="Más opciones de almuerzo">
+              <article class="menu-item">
+                <div>
+                  <h3>Pollo campesino</h3>
+                  <p>Pechuga dorada, ensalada fresca, papa criolla y sopa.</p>
+                </div>
+                <span class="price">$22.000</span>
+              </article>
+
+              <article class="menu-item">
+                <div>
+                  <h3>Lentejas verdes</h3>
+                  <p>Lentejas guisadas, arroz, tajada madura y ensalada.</p>
+                </div>
+                <span class="price">$20.000</span>
+              </article>
+
+              <article class="dish-card dish-card--small">
+                <img
+                  src="img/rachel-park-hrlvr2ZlUNk-unsplash.jpg"
+                  alt="Mesa con platos caseros servidos para almuerzo"
+                  loading="lazy"
+                />
+                <div class="dish-card__body">
+                  <h3>Para oficina o casa</h3>
+                  <p>
+                    Pregunta por disponibilidad, tiempos de entrega y pedidos de
+                    más de cuatro almuerzos.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="order" id="pedido" aria-labelledby="order-title">
+        <div class="container order__grid">
+          <div class="order__copy">
+            <p class="eyebrow">Pedido directo</p>
+            <h2 id="order-title">Escríbenos y reserva tu almuerzo.</h2>
+            <p>
+              Atendemos pedidos por WhatsApp y solicitudes cortas para coordinar
+              disponibilidad, dirección y hora de entrega.
+            </p>
+            <div class="contact-lines">
+              <a
+                href="https://wa.me/573229059423?text=Hola%2C%20quiero%20ver%20la%20oferta%20de%20almuerzos%20de%20hoy."
+              >
+                +57 322 905 9423
+              </a>
+              <a href="mailto:pedidos@lamesaverde.com">pedidos@lamesaverde.com</a>
+            </div>
+            <a
+              class="btn btn--primary"
+              href="https://wa.me/573229059423?text=Hola%2C%20quiero%20pedir%20un%20almuerzo%20en%20La%20Mesa%20Verde."
+            >
+              Pedir ahora por WhatsApp
+            </a>
+          </div>
+
+          <form class="order-form" action="/pedido" method="post">
+            <input type="hidden" name="destinatario" value="david.mer.her@gmail.com" />
+            <input type="hidden" name="origen" value="P1 Landing page demo" />
+
+            <label for="nombre">Nombre</label>
+            <input id="nombre" name="nombre" type="text" autocomplete="name" required />
+
+            <label for="telefono">WhatsApp</label>
+            <input
+              id="telefono"
+              name="telefono"
+              type="tel"
+              autocomplete="tel"
+              inputmode="tel"
+              required
+            />
+
+            <label for="mensaje">Solicitud</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              rows="4"
+              placeholder="Quiero pedir 2 almuerzos para hoy..."
+              required
+            ></textarea>
+
+            <button class="btn btn--primary" type="submit">Enviar solicitud</button>
+          </form>
+        </div>
+
+        <div class="demo-note container">
+          Proyecto demo para portafolio. La Mesa Verde es una marca ficticia de
+          muestra.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
