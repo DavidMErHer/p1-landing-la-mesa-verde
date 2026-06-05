@@ -54,7 +54,15 @@ function buildEmailText({ name, phone, product, message, source }) {
   ].join("\n");
 }
 
-export async function onRequest({ request, env }) {
+export async function onRequest(context) {
+  const { request } = context;
+
+  if (request.method === "GET") {
+    return new Response("Endpoint activo. Usa POST desde el formulario.", {
+      status: 200,
+    });
+  }
+
   if (request.method !== "POST") {
     return new Response("Metodo no permitido.", {
       status: 405,
@@ -76,19 +84,24 @@ export async function onRequest({ request, env }) {
     return new Response("Faltan campos requeridos.", { status: 400 });
   }
 
-  if (!env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL) {
-    return new Response("Configuracion de email incompleta.", { status: 500 });
+  if (!context.env.RESEND_API_KEY) {
+    return new Response("Falta RESEND_API_KEY", { status: 500 });
+  }
+
+  if (!context.env.CONTACT_TO_EMAIL) {
+    return new Response("Falta CONTACT_TO_EMAIL", { status: 500 });
   }
 
   const resendResponse = await fetch(RESEND_ENDPOINT, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${context.env.RESEND_API_KEY}`,
       "Content-Type": "application/json",
+      "User-Agent": "la-mesa-verde/1.0",
     },
     body: JSON.stringify({
       from: "La Mesa Verde <onboarding@resend.dev>",
-      to: [env.CONTACT_TO_EMAIL],
+      to: [context.env.CONTACT_TO_EMAIL],
       subject: "Nueva solicitud desde La Mesa Verde",
       html: buildEmailHtml(submission),
       text: buildEmailText(submission),
@@ -96,6 +109,12 @@ export async function onRequest({ request, env }) {
   });
 
   if (!resendResponse.ok) {
+    console.error("Resend request failed", {
+      status: resendResponse.status,
+      statusText: resendResponse.statusText,
+      body: await resendResponse.text(),
+    });
+
     return new Response("No se pudo enviar la solicitud.", { status: 502 });
   }
 

@@ -42,6 +42,18 @@ CONTACT_TO_EMAIL=david.mer.her@gmail.com
    `La Mesa Verde <onboarding@resend.dev>`. En producción se debe verificar un
    dominio en Resend y cambiar el remitente por uno propio.
 
+## Troubleshooting del formulario
+
+- Abre `/api/contact` en la URL pública. Debe responder:
+  `Endpoint activo. Usa POST desde el formulario.`
+- Si al enviar aparece `Falta RESEND_API_KEY`, revisa que la variable exista en
+  Cloudflare Pages Production como Secret y haz redeploy.
+- Si aparece `Falta CONTACT_TO_EMAIL`, revisa que la variable exista en
+  Cloudflare Pages Production y haz redeploy.
+- Si aparece `No se pudo enviar la solicitud.`, revisa los logs de Cloudflare
+  Pages Functions. La función registra estado, texto de estado y respuesta de
+  Resend, pero no imprime la API key.
+
 La acción principal de la landing es WhatsApp:
 
 - `https://wa.me/573229059423`
